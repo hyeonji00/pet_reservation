@@ -1,0 +1,21 @@
+{
+  "name": "tave_pet",
+  "version": "1.0.0",
+  "scripts": {},
+  "dependencies": {
+    "babel": "^6.23.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "json": "^11.0.0",
+    "mysql": "^2.18.1",
+    "node": "^16.10.0",
+    "nodejs": "^0.0.0",
+    "supervisor": "^0.12.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.5",
+    "@babel/node": "^7.15.4",
+    "nodemon": "^2.0.13"
+  }
+}
