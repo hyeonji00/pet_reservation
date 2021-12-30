@@ -19,8 +19,12 @@ router.post('/signup', function (req, res) { // 하위 링크 수정
     // addr는 프로필 설정할 때 추가
 
     con.query(`INSERT INTO user (email, pwd, nickname, user_name, mobile) VALUES (\'${email}\', \'${pwd}\',\'${nickname}\', \'${user_name}\', \'${mobile}\');`, (err) => {
-        if (err) res.json({ success: false, msg: 'signup fail' });
-        else res.json({ success: true, msg: 'signup success' });
+        if (err) {
+            console.log('sign up fail')
+        }
+        else {
+            console.log('sign up success')
+        }
     });
 });
 
@@ -31,10 +35,10 @@ router.post('/signin', function (req, res) { // 하위 링크 수정
 
     con.query(`SELECT * FROM user WHERE email='${email}' AND pwd='${pwd}';`, (err, row) => {
         if (err) {
-            res.json({ success: false, msg: 'signin fail' });
+            console.log('sign in fail')
         }
         else if (row.length == 0) {
-            res.json({ success: false, msg: 'signin fail' });
+            console.log('sign in fail')
         }
         else {
             // email, password 대조
