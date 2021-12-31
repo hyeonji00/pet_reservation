@@ -19,12 +19,12 @@ USE `projectDB` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `projectDB`.`user` (
   `user_id` INT NOT NULL AUTO_INCREMENT,
-  `user_name` VARCHAR(45) NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
   `nickname` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
-  `pwd` VARCHAR(45) NOT NULL,
+  `pw` VARCHAR(45) NOT NULL,
   `mobile` VARCHAR(45) NOT NULL,
-  `addr` VARCHAR(45) NOT NULL,
+  `addr` VARCHAR(45) NULL,
   PRIMARY KEY (`user_id`))
 ENGINE = InnoDB;
 
@@ -34,14 +34,14 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `projectDB`.`pet` (
   `pet_id` INT NOT NULL AUTO_INCREMENT,
-  `owner` INT NULL,
-  `pet_name` VARCHAR(45) NULL,
-  `age` INT NULL,
-  `weight` FLOAT NULL,
-  `sex` VARCHAR(10) NULL,
-  `type` VARCHAR(10) NULL,
-  `breed` VARCHAR(45) NULL,
-  `pet_image` VARCHAR(45) NULL,
+  `owner` INT NOT NULL,
+  `image` BLOB NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `type` VARCHAR(10) NOT NULL,
+  `neutering` TINYINT NOT NULL,
+  `age` INT NOT NULL,
+  `weight` FLOAT NOT NULL,
+  `breed` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`pet_id`),
   INDEX `fk_pet_user_idx` (`owner` ASC) VISIBLE,
   CONSTRAINT `fk_pet_user`
@@ -57,11 +57,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `projectDB`.`service` (
   `srv_id` INT NOT NULL AUTO_INCREMENT,
-  `srv_name` VARCHAR(45) NULL,
-  `srv_mobile` VARCHAR(45) NULL,
-  `srv_addr` VARCHAR(45) NULL,
-  `srv_time` TIME NULL,
-  `srv_type` VARCHAR(45) NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `mobile` VARCHAR(45) NOT NULL,
+  `addr` VARCHAR(45) NOT NULL,
+  `time` TIME NOT NULL,
+  `type` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`srv_id`))
 ENGINE = InnoDB;
 
@@ -71,13 +71,13 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `projectDB`.`review` (
   `review_id` INT NOT NULL,
-  `review_score` INT NULL,
-  `review_context` VARCHAR(45) NULL,
-  `srv_id2` INT NULL,
+  `score` INT NOT NULL,
+  `context` VARCHAR(45) NULL,
+  `srv_id` INT NOT NULL,
   PRIMARY KEY (`review_id`),
-  INDEX `fk_review_service1_idx` (`srv_id2` ASC) VISIBLE,
+  INDEX `fk_review_service1_idx` (`srv_id` ASC) VISIBLE,
   CONSTRAINT `fk_review_service1`
-    FOREIGN KEY (`srv_id2`)
+    FOREIGN KEY (`srv_id`)
     REFERENCES `projectDB`.`service` (`srv_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -89,10 +89,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `projectDB`.`diary` (
   `diary_id` INT NOT NULL AUTO_INCREMENT,
-  `diary_context` TEXT(500) NULL,
+  `context` TEXT(500) NULL,
   `writer` INT NULL,
-  `diary_title` VARCHAR(45) NULL,
-  `diary_date` DATE NULL,
+  `title` VARCHAR(45) NULL,
+  `date` DATE NULL,
+  `image`,  BLOB NULL,
   PRIMARY KEY (`diary_id`),
   INDEX `fk_diary_user1_idx` (`writer` ASC) VISIBLE,
   CONSTRAINT `fk_diary_user1`
@@ -108,8 +109,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `projectDB`.`user_pet` (
   `user_pet_id` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT NULL,
-  `pet_id` INT NULL,
+  `user_id` INT NOT NULL,
+  `pet_id` INT NOT NULL,
   INDEX `fk_user_pet_user1_idx` (`user_id` ASC) VISIBLE,
   INDEX `fk_user_pet_pet1_idx` (`pet_id` ASC) VISIBLE,
   PRIMARY KEY (`user_pet_id`),
@@ -131,9 +132,10 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `projectDB`.`reservation` (
   `reservation_id` INT NOT NULL AUTO_INCREMENT,
-  `reservation_date` DATETIME NULL,
-  `svc_id` INT NULL,
-  `client_id` INT NULL,
+  `reservation_date` DATE NOT NULL,
+  `reservation_time` TIME NOT NULL,
+  `svc_id` INT NOT NULL,
+  `client_id` INT NOT NULL,
   PRIMARY KEY (`reservation_id`),
   INDEX `fk_reservation_user_pet1_idx` (`client_id` ASC) VISIBLE,
   INDEX `fk_reservation_service1_idx` (`svc_id` ASC) VISIBLE,
