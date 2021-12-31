@@ -12,13 +12,13 @@ con.connect();
 
 router.post('/signup', function (req, res) { // 하위 링크 수정
     var email = req.body.email;
-    var pwd = req.body.pwd;
+    var pw = req.body.pw;
     var nickname = req.body.nickname; 
-    var user_name = req.body.user_name;
+    var name = req.body.name;
     var mobile = req.body.mobile;
     // addr는 프로필 설정할 때 추가
 
-    con.query(`INSERT INTO user (email, pwd, nickname, user_name, mobile) VALUES (\'${email}\', \'${pwd}\',\'${nickname}\', \'${user_name}\', \'${mobile}\');`, (err) => {
+    con.query(`INSERT INTO user (email, pw, nickname, name, mobile) VALUES (\'${email}\', \'${pw}\',\'${nickname}\', \'${name}\', \'${mobile}\');`, (err) => {
         if (err) {
             console.log('sign up fail')
         }
@@ -31,9 +31,9 @@ router.post('/signup', function (req, res) { // 하위 링크 수정
 
 router.post('/signin', function (req, res) { // 하위 링크 수정
     var email = req.body.email; 
-    var pwd = req.body.pwd;
+    var pw = req.body.pw;
 
-    con.query(`SELECT * FROM user WHERE email='${email}' AND pwd='${pwd}';`, (err, row) => {
+    con.query(`SELECT * FROM user WHERE email='${email}' AND pw='${pw}';`, (err, row) => {
         if (err) {
             console.log('sign in fail')
         }
