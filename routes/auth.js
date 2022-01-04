@@ -5,7 +5,7 @@ const mysql = require('mysql');
 const con = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'qlenfrlsms99', // 비밀번호
+    password: 'petres', // 비밀번호
     database: 'projectDB'
 });
 con.connect();

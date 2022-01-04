@@ -1,15 +1,5 @@
 const router = require('express').Router();
-const mysql = require('mysql');
-
-// DB 연결
-const con = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'petres',
-    database: 'projectdb',
-    multipleStatements: true
-});
-con.connect();
+var con = require('./db.js');
 
 
 router.post('/pet', function (req, res) {
