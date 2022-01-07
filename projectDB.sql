@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `projectDB`.`user` (
   `mobile` VARCHAR(45) NOT NULL,
   `addr` VARCHAR(45) NULL,
   PRIMARY KEY (`user_id`))
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 
 -- -----------------------------------------------------
@@ -43,13 +43,13 @@ CREATE TABLE IF NOT EXISTS `projectDB`.`pet` (
   `weight` FLOAT NOT NULL,
   `breed` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`pet_id`),
-  INDEX `fk_pet_user_idx` (`owner` ASC) VISIBLE,
+  INDEX `fk_pet_user_idx` (`owner` ASC),
   CONSTRAINT `fk_pet_user`
     FOREIGN KEY (`owner`)
     REFERENCES `projectDB`.`user` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 
 -- -----------------------------------------------------
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `projectDB`.`service` (
   `time` TIME NOT NULL,
   `type` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`srv_id`))
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 
 -- -----------------------------------------------------
@@ -75,13 +75,13 @@ CREATE TABLE IF NOT EXISTS `projectDB`.`review` (
   `context` VARCHAR(45) NULL,
   `srv_id` INT NOT NULL,
   PRIMARY KEY (`review_id`),
-  INDEX `fk_review_service1_idx` (`srv_id` ASC) VISIBLE,
+  INDEX `fk_review_service1_idx` (`srv_id` ASC),
   CONSTRAINT `fk_review_service1`
     FOREIGN KEY (`srv_id`)
     REFERENCES `projectDB`.`service` (`srv_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 
 -- -----------------------------------------------------
@@ -93,15 +93,14 @@ CREATE TABLE IF NOT EXISTS `projectDB`.`diary` (
   `writer` INT NULL,
   `title` VARCHAR(45) NULL,
   `date` DATE NULL,
-  `image`,  BLOB NULL,
   PRIMARY KEY (`diary_id`),
-  INDEX `fk_diary_user1_idx` (`writer` ASC) VISIBLE,
+  INDEX `fk_diary_user1_idx` (`writer` ASC),
   CONSTRAINT `fk_diary_user1`
     FOREIGN KEY (`writer`)
     REFERENCES `projectDB`.`user` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 
 -- -----------------------------------------------------
@@ -111,8 +110,8 @@ CREATE TABLE IF NOT EXISTS `projectDB`.`user_pet` (
   `user_pet_id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
   `pet_id` INT NOT NULL,
-  INDEX `fk_user_pet_user1_idx` (`user_id` ASC) VISIBLE,
-  INDEX `fk_user_pet_pet1_idx` (`pet_id` ASC) VISIBLE,
+  INDEX `fk_user_pet_user1_idx` (`user_id` ASC),
+  INDEX `fk_user_pet_pet1_idx` (`pet_id` ASC),
   PRIMARY KEY (`user_pet_id`),
   CONSTRAINT `fk_user_pet_user1`
     FOREIGN KEY (`user_id`)
@@ -124,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `projectDB`.`user_pet` (
     REFERENCES `projectDB`.`pet` (`pet_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 
 -- -----------------------------------------------------
@@ -132,13 +131,12 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `projectDB`.`reservation` (
   `reservation_id` INT NOT NULL AUTO_INCREMENT,
-  `reservation_date` DATE NOT NULL,
-  `reservation_time` TIME NOT NULL,
+  `date` DATETIME NOT NULL,
   `svc_id` INT NOT NULL,
   `client_id` INT NOT NULL,
   PRIMARY KEY (`reservation_id`),
-  INDEX `fk_reservation_user_pet1_idx` (`client_id` ASC) VISIBLE,
-  INDEX `fk_reservation_service1_idx` (`svc_id` ASC) VISIBLE,
+  INDEX `fk_reservation_user_pet1_idx` (`client_id` ASC),
+  INDEX `fk_reservation_service1_idx` (`svc_id` ASC),
   CONSTRAINT `fk_reservation_user_pet1`
     FOREIGN KEY (`client_id`)
     REFERENCES `projectDB`.`user_pet` (`user_pet_id`)
@@ -149,7 +147,7 @@ CREATE TABLE IF NOT EXISTS `projectDB`.`reservation` (
     REFERENCES `projectDB`.`service` (`srv_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

@@ -22,7 +22,7 @@ const profile = require('./profile');
 app.use('/profile', profile);
 
 const auth = require('./auth');
-app.use('/auth', profile);
+app.use('/auth', auth);
 
 app.listen(3000, () => {
     console.log('server connected');
