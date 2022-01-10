@@ -1,5 +1,4 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 const mysql = require('mysql');
 
 router.get('/diary', function(req, res){ // 다이어리 페이지 주소로 수정
@@ -20,3 +19,5 @@ router.get('/diary', function(req, res){ // 다이어리 페이지 주소로 수
         }
     });
 })
+
+module.exports = router;

@@ -24,6 +24,12 @@ app.use('/profile', profile);
 const auth = require('./auth');
 app.use('/auth', auth);
 
+const diary = require('./diary');
+app.use('/diary', diary);
+
+const reservation = require('./reservation');
+app.use('/reservation', reservation);
+
 app.listen(3000, () => {
     console.log('server connected');
 });

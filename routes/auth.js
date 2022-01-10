@@ -24,10 +24,10 @@ router.post('/login', function (req, res) {
 
     con.query(`SELECT * FROM user WHERE email='${email}' AND pw='${pw}';`, (err, row) => {
         if (err) {
-            res.json({ success: false, msg: 'login fail' });
+            res.json([{ id: -1, nickname: '' }]);
         }
         else if (row.length == 0) {
-            res.json({ success: false, msg: 'login fail' });
+            res.json([{ id: -1, nickname: '' }]);
         }
         else {
             con.query(`SELECT JSON_ARRAYAGG(JSON_OBJECT('id', user_id, 'nickname', nickname)) AS result FROM user WHERE user_id = ${row[0].user_id} ;`, (err, row) => {
