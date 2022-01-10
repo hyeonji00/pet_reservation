@@ -10,22 +10,27 @@ router.post('/reservation', function (req, res) { // 하위 링크 수정
     var type = req.body.type;
 
     var user_id = req.body.user_id;
-    var date = new Date(req.body.date);
+    var pet_id = req.body.pet_id;
+    var date = req.body.date;
+    const date_time = new Date(date).toISOString().slice(0,19).replace('T', ' ');
 
-
-    con.query(`INSERT INTO service (name, mobile, addr, time, type) VALUES (\'${name}\', \'${mobile}\',\'${addr}\',\'${time}'\,\'${type}'\);`, function(err, result1, field) {
+    con.query(`INSERT INTO user_pet (user_id, pet_id) VALUES (\'${user_id}\', \'${pet_id}\');`, function(err, result) {
         if (err) res.json(err);
-        else{
-            if (err) console.log('insert service error');
-            else{
-                tmp_service = result1[0].insertId;
-                con.query(`INSERT INTO reservation (date, svc_id, client_id) VALUES (\'${date}\', \'${temp_service}\',\'${user_id}\');`, (err) => {
-                if (err) res.json({ success: false, msg: 'reservation save fail' });
-                else res.json({ success: true, msg: 'reservation save success' });
-            });
-        }
-        }
-    });    
+        else {
+            // res.json({ success: true, msg: 'user-pet success' });
+            let user_pet_id = result.insertId;
+            con.query(`INSERT INTO service (name, mobile, addr, time, type) VALUES (\'${name}\', \'${mobile}\',\'${addr}\',\'${time}'\,\'${type}'\);`, function(err, result1) {
+                if (err) res.json({ success: false, msg: 'insertion fail' });
+                else{
+                    let srv_no = result1.insertId; 
+                    con.query(`INSERT INTO reservation (date, svc_id, client_id) VALUES (\'${date_time}\', \'${srv_no}\',\'${user_pet_id}\');`, (err) => {
+                            if (err) res.json(err);
+                            else res.json({ success: true, msg: 'reservation save success' });
+                        });
+                }
+            });  
+    }
+    });   
 });
 
 router.post('/review', function (req, res) { // 하위 링크 수정

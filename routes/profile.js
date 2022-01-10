@@ -12,7 +12,7 @@ router.post('/pet', function (req, res) {
     var weight = req.body.weight;
     var breed = req.body.ani;
     //console.log(name)
-    con.query(`SELECT id FROM user WHERE email='${email}'`, (err, row) => {
+    con.query(`SELECT user_id FROM user WHERE email='${email}'`, (err, row) => {
         if (err) res.json({success: false, msg: 'registration select error'});
         else{
             con.query(`INSERT INTO pet (image, name, type, neutering, age, weight, breed) VALUES (\'${image}\', \'${name}\', \'${type}\', \'${neutering}\',\'${age}\',\'${weight}\',\'${breed}\',);`, (err) => {
